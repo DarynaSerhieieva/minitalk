@@ -1,16 +1,24 @@
-#include "minitalk.h"
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dserhiei <dserhiei@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 18:36:16 by dserhiei          #+#    #+#             */
+/*   Updated: 2024/10/12 21:18:55 by dserhiei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-volatile sig_atomic_t g_bit = 0;
+#include "libft.h"
+#include <signal.h>
 
 void	handle_signal(int sig)
 {
 	static int	bits_received = 0;
 	static char	current_char = 0;
 
-	if (sig == SIGUSR1)
-		current_char |= (0 << bits_received);
-	else if (sig == SIGUSR2)
+	if (sig == SIGUSR2)
 		current_char |= (1 << bits_received);
 	bits_received++;
 	if (bits_received == 8)
@@ -23,10 +31,7 @@ void	handle_signal(int sig)
 
 int	main(void)
 {
-	pid_t	server_pid;
-
-	server_pid = getpid();
-	ft_printf("PID: %u\n", server_pid);
+	ft_printf("PID: %u\n", getpid());
 	signal(SIGUSR1, handle_signal);
 	signal(SIGUSR2, handle_signal);
 	while (1)
