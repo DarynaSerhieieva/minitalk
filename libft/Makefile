@@ -2,7 +2,7 @@
 NAME = libft.a
 
 # Compiler and flags
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
 PRINTF_DIR		= $(SRC_DIR)ft_printf/
 SRC_DIR		= ./
