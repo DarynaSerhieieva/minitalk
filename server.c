@@ -6,7 +6,7 @@
 /*   By: dserhiei <dserhiei@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/12 18:36:16 by dserhiei          #+#    #+#             */
-/*   Updated: 2024/10/12 21:18:55 by dserhiei         ###   ########.fr       */
+/*   Updated: 2024/10/27 20:02:00 by dserhiei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	handle_signal(int sig)
 	static int	bits_received = 0;
 	static char	current_char = 0;
 
-	if (sig == SIGUSR2)
-		current_char |= (1 << bits_received);
+	if (sig == SIGUSR1)
+		current_char = (current_char << 1) | 1;
+	else if (sig == SIGUSR2)
+		current_char = current_char << 1;
 	bits_received++;
-	if (bits_received == 8)
+	if (bits_received >= 8)
 	{
 		write(1, &current_char, 1);
 		bits_received = 0;
